@@ -1,0 +1,38 @@
+.app {
+    padding: 20px;
+    font-family: sans-serif;
+}
+
+.citation-table {
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    width: 100%;
+    max-width: 500px;
+}
+
+.citation-table th,
+.citation-table td {
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+}
+
+.citation-table th {
+    background: #f5f5f5;
+    text-align: left;
+}
+
+button {
+    padding: 6px 10px;
+    cursor: pointer;
+}
+
+.editor-wrapper {
+    border: 1px solid #ccc;
+}
+
+/*!* THIS controls editor height *!*/
+.ck-editor__editable_inline {
+    min-height: 300px;
+    padding: 16px;
+    font-size: 14px;
+}
