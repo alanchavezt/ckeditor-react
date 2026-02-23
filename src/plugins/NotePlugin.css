@@ -32,12 +32,12 @@
 
 /* Note body */
 .note-body {
-    padding-left: 10px;
+    /*padding-left: 10px;*/
     color: #333;
     background-color: #ffffff;
     border-left: 2px solid #8aa1f1;
     border-radius: 4px;
-    padding: 8px;
+    /*padding: 8px;*/
 }
 
 .note-title.ck-editor__editable::before,
@@ -48,12 +48,20 @@
     position: absolute;
     left: 8px;
     top: 8px;
+    line-height: 1.5;
+}
+
+.note-title.ck-editor__editable p,
+.note-body.ck-editor__editable p {
+    margin: 0;
 }
 
 .note-title.ck-editor__editable,
 .note-body.ck-editor__editable {
     position: relative;
     min-height: 1.5em;
+    padding: 6px 8px;
+    line-height: 1.5;
 }
 
 

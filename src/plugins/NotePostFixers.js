@@ -63,8 +63,24 @@ export const addNoteLabels = (noteModel, writer, editor) => {
 
 export const updateNotePlaceholders = (writer, editor) => {
 	let changed = false;
-
 	const root = editor.model.document.getRoot();
+
+	const hasTextContent = (element) => {
+		for (const child of element.getChildren()) {
+			if (child.is("$text") && child.data.trim()) {
+				return true;
+			}
+
+			if (child.is("element")) {
+				for (const grandChild of child.getChildren()) {
+					if (grandChild.is("$text") && grandChild.data.trim()) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	};
 
 	for (const note of root.getChildren()) {
 		if (note.name !== "note") continue;
@@ -72,24 +88,32 @@ export const updateNotePlaceholders = (writer, editor) => {
 		const title = note.getChild(0);
 		const body = note.getChild(1);
 
-		// Title placeholder
-		if (title && title.isEmpty && !title.hasAttribute("data-placeholder")) {
-			writer.setAttribute("data-placeholder", "Enter title here...", title);
-			changed = true;
-		} else if (title && !title.isEmpty && title.hasAttribute("data-placeholder")) {
-			writer.removeAttribute("data-placeholder", title);
-			changed = true;
+		/* ───────── Title ───────── */
+
+		if (title) {
+			if (title.isEmpty && !title.hasAttribute("data-placeholder")) {
+				writer.setAttribute("data-placeholder", "Enter title here...", title);
+				changed = true;
+			} else if (!title.isEmpty && title.hasAttribute("data-placeholder")) {
+				writer.removeAttribute("data-placeholder", title);
+				changed = true;
+			}
 		}
 
-		// Body placeholder
-		if (body && body.isEmpty && !body.hasAttribute("data-placeholder")) {
-			writer.setAttribute("data-placeholder", "Enter content here...", body);
-			changed = true;
-		} else if (body && !body.isEmpty && body.hasAttribute("data-placeholder")) {
-			writer.removeAttribute("data-placeholder", body);
-			changed = true;
+		/* ───────── Body (FIXED PROPERLY) ───────── */
+
+		if (body) {
+			const hasText = hasTextContent(body);
+
+			if (!hasText && !body.hasAttribute("data-placeholder")) {
+				writer.setAttribute("data-placeholder", "Enter content here...", body);
+				changed = true;
+			} else if (hasText && body.hasAttribute("data-placeholder")) {
+				writer.removeAttribute("data-placeholder", body);
+				changed = true;
+			}
 		}
 	}
 
-	return changed; // Only return true if any attribute was changed
-}
+	return changed;
+};

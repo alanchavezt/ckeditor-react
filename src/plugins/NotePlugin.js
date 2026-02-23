@@ -110,6 +110,12 @@ export default class NotePlugin extends Plugin {
 				return toWidgetEditable(editable, writer);
 			}
 		});
+
+		/* 🔑 REQUIRED: attribute sync (THIS FIXES PLACEHOLDERS) */
+		editor.conversion.for("editingDowncast").attributeToAttribute({
+			model: "data-placeholder",
+			view: "data-placeholder"
+		});
 	}
 }
 
