@@ -24,6 +24,12 @@ Editor.builtinPlugins = [
 	NotePlugin
 ];
 
+const licenseKey = import.meta.env.VITE_CKEDITOR_LICENSE_KEY;
+
+if (!licenseKey) {
+	console.warn("⚠️ CKEditor license key is missing");
+}
+
 Editor.defaultConfig = {
 	toolbar: {
 		items: [
@@ -36,5 +42,5 @@ Editor.defaultConfig = {
 		]
 	},
 	language: "en",
-	licenseKey: ""
+	licenseKey
 };
